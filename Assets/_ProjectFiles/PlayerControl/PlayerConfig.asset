@@ -20,4 +20,4 @@ MonoBehaviour:
   InteractDistance: 3
   InteractableLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
