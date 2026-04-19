@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5321b5bb78cac2342a01a964e46cdc10, type: 3}
+  m_Name: "\u0414\u0438\u0430\u043B\u043E\u0433 1"
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueData
+  _nodes:
+  - _speakerName: "\u0420\u0430\u043D\u0434\u043E\u043C \u0447\u0435\u043B"
+    _text: "\u041F\u0440\u0438\u0432\u0435\u0442, \u044D\u0442\u043E \u044F, \u0420\u0430\u043D\u0434\u043E\u043C
+      \u0427\u0435\u043B"
+    _choices:
+    - _text: "\u041F\u0440\u0438\u0432\u0435\u0442 \u043E\u0447 \u043F\u0440\u0438\u044F\u0442\u043D\u043E"
+      _nextNodeIndex: 1
+    - _text: "\u0410 \u0432\u043E\u0442 \u0438 \u043D\u0435 \u043F\u0440\u0438\u0432\u0435\u0442"
+      _nextNodeIndex: 2
+    _nextNodeIndex: -1
+  - _speakerName: "\u0418\u0433\u0440\u043E\u043A"
+    _text: "\u041F\u0440\u0438\u0432\u0435\u0442 \u043E\u0447\u0435\u043D\u044C \u043F\u0440\u0438\u044F\u0442\u043D\u043E)"
+    _choices: []
+    _nextNodeIndex: 3
+  - _speakerName: "\u0418\u0433\u0440\u043E\u043A"
+    _text: "\u0410 \u0432\u043E\u0442 \u0438 \u043D\u0435 \u043F\u0440\u0438\u0432\u0435\u0442,
+      \u0442\u044B \u043C\u043D\u0435 \u043D\u0435 \u043D\u0440\u0430\u0432\u0438\u0448\u044C\u0441\u044F"
+    _choices: []
+    _nextNodeIndex: 4
+  - _speakerName: "\u0420\u0430\u043D\u0434\u043E\u043C \u0447\u0435\u043B"
+    _text: "\u041D\u0443 \u0432\u043E\u0442, \u0432\u0441\u0435 \u0445\u043E\u0440\u043E\u0448\u043E)"
+    _choices: []
+    _nextNodeIndex: -1
+  - _speakerName: "\u0420\u0430\u043D\u0434\u043E\u043C \u0447\u0435\u043B"
+    _text: "\u0410\u0445 \u0442\u044B \u0432\u043E\u0442 \u0442\u0430\u043A\u043E\u0439
+      \u0434\u0430"
+    _choices: []
+    _nextNodeIndex: -1
+  _startsQuest: 0

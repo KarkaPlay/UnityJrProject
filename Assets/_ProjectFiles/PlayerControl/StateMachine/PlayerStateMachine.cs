@@ -19,6 +19,7 @@ namespace PlayerControl
         // Все стейты должны быть тут
         public ExplorationState ExplorationState { get; private set; }
         public InspectionState InspectionState { get; private set; }
+        public DialogueState DialogueState { get; private set; }
 
         private void Awake()
         {
@@ -30,6 +31,7 @@ namespace PlayerControl
 
             ExplorationState = new ExplorationState(this);
             InspectionState = new InspectionState(this);
+            DialogueState = new DialogueState(this);
         }
 
         private void Start()
