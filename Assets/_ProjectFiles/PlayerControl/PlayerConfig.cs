@@ -15,4 +15,17 @@ public class PlayerConfig : ScriptableObject
     [Header("Interaction")]
     public float InteractDistance = 3f;
     public LayerMask InteractableLayer;
+
+    [Header("Outline")]
+    public Color DefaultOutlineColor = Color.yellow;
+    public float DefaultOutlineWidth = 4f;
+
+    [Header("Inspection Outline")]
+    public Color InspectionOutlineColor = Color.white;
+    public float InspectionOutlineWidth = 2f;
+
+    [Header("Note Inspection")]
+    public float NoteInspectionDistance = 0.3f;
+    public float NoteInspectionOffsetX = 0f;
+    public float NoteInspectionOffsetY = 0f;
 }

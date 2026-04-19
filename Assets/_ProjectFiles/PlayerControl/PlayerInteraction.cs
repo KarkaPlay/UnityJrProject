@@ -8,12 +8,20 @@ namespace PlayerControl
     {
         [SerializeField] private PlayerConfig _config;
         [SerializeField] private Transform _cameraTransform;
-        [SerializeField] private InteractionHintUI _hintUI;
 
-        private InteractableBase _currentInteractable;
+        private PlayerStateMachine _stateMachine;
+        private IInteractable _currentInteractable;
+        private InteractableOutline _currentOutline;
         private bool _isButtonDown;
         private float _pressStartTime;
         private const float _holdThreshold = 0.2f;
+
+        public bool IsRaycastEnabled { get; set; } = true;
+
+        private void Awake()
+        {
+            _stateMachine = GetComponent<PlayerStateMachine>();
+        }
 
         public void OnInteract(InputAction.CallbackContext context)
         {
@@ -26,9 +34,7 @@ namespace PlayerControl
             if (context.canceled)
             {
                 if (Time.time - _pressStartTime < _holdThreshold)
-                {
                     _currentInteractable?.OnInteract();
-                }
 
                 _isButtonDown = false;
                 _currentInteractable?.OnStopInteract();
@@ -37,7 +43,8 @@ namespace PlayerControl
 
         private void Update()
         {
-            CheckRaycast();
+            if (IsRaycastEnabled)
+                CheckRaycast();
 
             if (_isButtonDown && _currentInteractable != null)
             {
@@ -54,26 +61,30 @@ namespace PlayerControl
 
             if (Physics.Raycast(ray, out RaycastHit hit, _config.InteractDistance, _config.InteractableLayer))
             {
-                if (hit.collider.TryGetComponent(out InteractableBase interactable))
+                if (hit.collider.TryGetComponent(out IInteractable interactable))
                 {
                     if (_currentInteractable != interactable)
                     {
+                        if (_currentOutline != null)
+                            _currentOutline.SetOutlineActive(false);
+
                         if (_isButtonDown)
-                        {
                             _currentInteractable?.OnStopInteract();
-                            _currentInteractable?.SetOutlineActive(false);
-                        }
+
                         _currentInteractable = interactable;
+
+                        if (hit.collider.TryGetComponent(out _currentOutline))
+                        {
+                            _currentOutline.Initialize(_config.DefaultOutlineColor, _config.DefaultOutlineWidth);
+                            _currentOutline.SetOutlineActive(true);
+                        }
                     }
 
-                    _currentInteractable.SetOutlineActive(true);
-
                     string text = _currentInteractable.GetInteractText();
-
                     if (string.IsNullOrEmpty(text))
-                        _hintUI.Hide();
+                        _stateMachine.UI.HideHint();
                     else
-                        _hintUI.Show(text);
+                        _stateMachine.UI.ShowHint(text);
 
                     return;
                 }
@@ -81,12 +92,28 @@ namespace PlayerControl
 
             if (_currentInteractable != null)
             {
-                if (_isButtonDown) _currentInteractable.OnStopInteract();
-                _currentInteractable?.SetOutlineActive(false);
+                if (_currentOutline != null)
+                    _currentOutline.SetOutlineActive(false);
+                _currentOutline = null;
+                if (_isButtonDown)
+                    _currentInteractable.OnStopInteract();
                 _currentInteractable = null;
             }
 
-            _hintUI.Hide();
+            _stateMachine.UI.HideHint();
+        }
+
+        public void SetCurrentInteractable(IInteractable interactable)
+        {
+            _currentInteractable = interactable;
+        }
+
+        public void ClearCurrentInteractable()
+        {
+            _currentOutline?.SetOutlineActive(false);
+            _currentOutline = null;
+            _currentInteractable = null;
+            _stateMachine.UI.HideHint();
         }
     }
 }

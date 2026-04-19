@@ -23,7 +23,6 @@ namespace InteractableSystem
             _isHolding = true;
             _progress = Mathf.Clamp01(_progress + _holdSpeed * Time.deltaTime);
             OnProgressChanged?.Invoke(_progress);
-            Debug.Log($"HoldInteract - обновлен прогресс: {_progress}");
         }
 
         public override void OnStopInteract()
@@ -38,7 +37,6 @@ namespace InteractableSystem
             {
                 _progress = Mathf.Clamp01(_progress - _returnSpeed * Time.deltaTime);
                 OnProgressChanged?.Invoke(_progress);
-                Debug.Log($"Откат прогресса: {_progress}");
             }
         }
     }

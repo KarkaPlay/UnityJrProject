@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 namespace InteractableSystem
 {
-    [RequireComponent(typeof(Outline))]
+    [RequireComponent(typeof(InteractableOutline))]
     public abstract class InteractableBase : MonoBehaviour, IInteractable
     {
         [Header("Interaction Text")]
@@ -36,13 +36,5 @@ namespace InteractableSystem
         public abstract void OnInteract();
         public virtual void OnHoldInteract() { }
         public virtual void OnStopInteract() { }
-
-        public void SetOutlineActive(bool isActive)
-        {
-            if (_outline.enabled != isActive)
-            {
-                _outline.enabled = isActive;
-            }
-        }
     }
 }
