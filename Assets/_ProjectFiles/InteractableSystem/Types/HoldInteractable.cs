@@ -6,6 +6,9 @@ namespace InteractableSystem
 {
     public class HoldInteractable : InteractableBase
     {
+        [Header("Texts")]
+        [SerializeField] private string _holdText = "Крутить";
+
         [Header("Hold Settings")]
         [SerializeField] private float _holdSpeed = 1f;
         [SerializeField] private float _returnSpeed = 0.5f;
@@ -16,10 +19,18 @@ namespace InteractableSystem
         private float _progress = 0f;
         private bool _isHolding = false;
 
+        public override string GetInteractText()
+        {
+            return GetTextOrBlocked(_holdText);
+        }
+
         public override void OnInteract() { }
 
         public override void OnHoldInteract()
         {
+            if (!CanInteract())
+                return;
+
             _isHolding = true;
             _progress = Mathf.Clamp01(_progress + _holdSpeed * Time.deltaTime);
             OnProgressChanged?.Invoke(_progress);

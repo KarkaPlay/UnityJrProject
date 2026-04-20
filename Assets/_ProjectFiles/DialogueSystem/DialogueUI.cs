@@ -11,7 +11,8 @@ public class DialogueUI : MonoBehaviour
     [SerializeField] private Transform _choicesContainer;
     [SerializeField] private Button _choiceButtonPrefab;
     [SerializeField] private Button _continueButton;
-    [SerializeField] private DialogueManager _manager;
+
+    private DialogueManager _manager => GameManager.Instance.DialogueManager;
 
     private void Awake()
     {

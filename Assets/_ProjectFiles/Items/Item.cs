@@ -9,10 +9,12 @@ namespace Items
     [RequireComponent(typeof(InteractableOutline))]
     public class Item : MonoBehaviour, IInteractable
     {
-        [Header("Настройки предмета")]
+        [Header("Item Settings")]
         [SerializeField] private string _itemName = "Предмет";
-        [SerializeField] private string _pickUpText = "Поднять";
+        [SerializeField] private string _inspectText = "Поднять";
+        [SerializeField] protected string _takeText = "Взять";
         [SerializeField][TextArea] private string _description = "Описание предмета";
+        [SerializeField] private bool _excludeFromQuests = false;
 
         [Header("Hold Settings")]
         [SerializeField] private Vector3 _customHoldPosition;
@@ -24,16 +26,17 @@ namespace Items
 
         public string Description => _description;
         public string ItemName => _itemName;
+        public bool ExcludeFromQuests => _excludeFromQuests;
+        public Vector3 originalScale { get; private set; }
 
-        protected PlayerStateMachine StateMachine;
-        protected PlayerInventory Inventory;
+        protected PlayerStateMachine StateMachine => GameManager.Instance.StateMachine;
+        protected PlayerInventory Inventory => GameManager.Instance.Inventory;
 
         protected ItemSocket _originSocket;
 
-        private void Start()
+        protected virtual void Awake()
         {
-            StateMachine = FindFirstObjectByType<PlayerStateMachine>();
-            Inventory = StateMachine.Inventory;
+            originalScale = transform.lossyScale;
         }
 
         public Vector3 GetHoldPosition()
@@ -52,8 +55,8 @@ namespace Items
         {
             return CurrentState switch
             {
-                ItemState.InSocket => Inventory.HasItem ? "" : _pickUpText,
-                ItemState.BeingInspected => "Взять",
+                ItemState.InSocket => Inventory.HasItem ? "" : _inspectText,
+                ItemState.BeingInspected => _takeText,
                 _ => ""
             };
         }
@@ -141,7 +144,7 @@ namespace Items
             while (elapsed < duration * 0.4f)
             {
                 float t = elapsed / (duration * 0.4f);
-                t = t * t * (3f - 2f * t); // SmoothStep
+                t = t * t * (3f - 2f * t);
 
                 transform.position = Vector3.Lerp(startPosition, peakPosition, t);
                 transform.localScale = Vector3.Lerp(startScale, peakScale, t);

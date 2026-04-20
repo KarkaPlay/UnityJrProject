@@ -8,10 +8,10 @@ namespace PlayerControl
 
         public override void Enter()
         {
-            stateMachine.UI.HideInspection();
-            stateMachine.Movement.enabled = true;
-            stateMachine.Camera.enabled = true;
-            stateMachine.Interaction.enabled = true;
+            UI.HideInspection();
+            Movement.enabled = true;
+            Camera.enabled = true;
+            Interaction.enabled = true;
         }
 
         public override void Exit()

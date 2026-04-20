@@ -7,6 +7,9 @@ namespace Items
 {
     public class NoteItem : Item
     {
+        [Header("Item Text")]
+        [SerializeField] private string _readText = "Прочитать";
+
         [Header("Note Settings")]
         [SerializeField] private Transform _rightPagePivot;
         [SerializeField] private float _openDuration = 0.8f;
@@ -23,8 +26,9 @@ namespace Items
         private Coroutine _animationCoroutine;
         private bool _isOpened;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             _rightPagePivot.localRotation = Quaternion.Euler(0f, _closedAngle, 0f);
 
             if (_leftPageText != null) _leftPageText.text = _leftPageContent;
@@ -35,8 +39,8 @@ namespace Items
         {
             return CurrentState switch
             {
-                ItemState.InSocket => Inventory.HasItem ? "" : "Прочитать",
-                ItemState.BeingInspected => _isOpened ? "Взять" : "",
+                ItemState.InSocket => Inventory.HasItem ? "" : _readText,
+                ItemState.BeingInspected => _isOpened ? _takeText : "",
                 _ => ""
             };
         }

@@ -6,8 +6,6 @@ using UnityEngine;
 public class DialogueData : ScriptableObject
 {
     [SerializeField] private List<DialogueNode> _nodes;
-    [SerializeField] private bool _startsQuest = false;
 
     public List<DialogueNode> Nodes => _nodes;
-    public bool StartsQuest => _startsQuest;
 }

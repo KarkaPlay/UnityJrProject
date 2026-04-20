@@ -1,4 +1,3 @@
-using PlayerControl;
 using UnityEngine;
 
 namespace PlayerControl
@@ -9,9 +8,9 @@ namespace PlayerControl
 
         public override void Enter()
         {
-            stateMachine.Movement.enabled = false;
-            stateMachine.Camera.enabled = false;
-            stateMachine.Interaction.enabled = false;
+            Movement.enabled = false;
+            Camera.enabled = false;
+            Interaction.enabled = false;
 
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -19,9 +18,9 @@ namespace PlayerControl
 
         public override void Exit()
         {
-            stateMachine.Movement.enabled = true;
-            stateMachine.Camera.enabled = true;
-            stateMachine.Interaction.enabled = true;
+            Movement.enabled = true;
+            Camera.enabled = true;
+            Interaction.enabled = true;
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;

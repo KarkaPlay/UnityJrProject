@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Text;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 namespace PlayerControl

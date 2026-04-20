@@ -6,11 +6,11 @@ namespace PlayerControl
     [RequireComponent(typeof(CharacterController))]
     public class PlayerMovement : MonoBehaviour
     {
-        [SerializeField] private PlayerConfig _config;
-
         private CharacterController _controller;
         private Vector2 _moveInput;
         private Vector3 _velocity;
+
+        private PlayerConfig _config => GameManager.Instance.Config;
 
         private void Awake()
         {

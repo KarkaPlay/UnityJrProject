@@ -5,15 +5,18 @@ namespace InteractableSystem
 {
     public class OneTimeInteractable : InteractableBase
     {
+        [Header("Texts")]
+        [SerializeField] private string _availableText = "Использовать";
+        [SerializeField] private string _usedText = "";
+
         private bool _isUsed = false;
 
         public override string GetInteractText()
         {
             if (_isUsed)
-                return "";
-            if (!CanInteract())
-                return "Недоступно";
-            return _interactText;
+                return _usedText;
+
+            return GetTextOrBlocked(_availableText);
         }
 
         public override void OnInteract()

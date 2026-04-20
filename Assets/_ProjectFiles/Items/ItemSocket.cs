@@ -7,24 +7,36 @@ namespace Items
 {
     public class ItemSocket : MonoBehaviour, IInteractable
     {
+        [Header("Texts")]
+        [SerializeField] private string _placeText = "Положить";
+
         [SerializeField] private Item _startingItem;
         [SerializeField] private Transform _socketTransform;
         [SerializeField] private float _placementSpeed = 5f;
 
-        private PlayerInventory _inventory;
+        private PlayerInventory Inventory => GameManager.Instance.Inventory;
         private Item _currentItem;
         private Coroutine _activeCoroutine;
         private bool _isBusy;
 
         private void Start()
         {
-            _inventory = FindFirstObjectByType<PlayerInventory>();
-
             if (_startingItem != null)
             {
                 _currentItem = _startingItem;
                 _startingItem.SetOriginSocket(this);
+                FixItemScale(_startingItem);
             }
+        }
+
+        private void FixItemScale(Item item)
+        {
+            Vector3 parentScale = _socketTransform.lossyScale;
+            item.transform.localScale = new Vector3(
+                item.originalScale.x / parentScale.x,
+                item.originalScale.y / parentScale.y,
+                item.originalScale.z / parentScale.z
+            );
         }
 
         public bool IsEmpty()
@@ -34,18 +46,20 @@ namespace Items
 
         public string GetInteractText()
         {
-            if (_isBusy || _inventory.IsBusy)
+            if (_isBusy || Inventory.IsBusy)
                 return "";
-            if (IsEmpty() && _inventory.HasItem)
-                return "Положить";
+
+            if (IsEmpty() && Inventory.HasItem)
+                return _placeText;
+
             return "";
         }
 
         public void OnInteract()
         {
-            if (_isBusy || _inventory.IsBusy)
+            if (_isBusy || Inventory.IsBusy)
                 return;
-            if (IsEmpty() && _inventory.HasItem)
+            if (IsEmpty() && Inventory.HasItem)
                 PlaceItem();
         }
 
@@ -60,8 +74,8 @@ namespace Items
 
         private void PlaceItem()
         {
-            Item item = _inventory.CurrentItem;
-            _inventory.Drop();
+            Item item = Inventory.CurrentItem;
+            Inventory.Drop();
 
             _currentItem = item;
             item.SetOriginSocket(this);
@@ -106,6 +120,7 @@ namespace Items
 
             item.transform.localPosition = Vector3.zero;
             item.transform.localRotation = Quaternion.identity;
+            FixItemScale(item);
 
             _isBusy = false;
             _activeCoroutine = null;

@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 namespace QuestSystem
 {
-
     public class QuestUI : MonoBehaviour
     {
         [SerializeField] private GameObject _container;

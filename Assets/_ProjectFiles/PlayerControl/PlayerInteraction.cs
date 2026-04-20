@@ -6,7 +6,6 @@ namespace PlayerControl
 {
     public class PlayerInteraction : MonoBehaviour
     {
-        [SerializeField] private PlayerConfig _config;
         [SerializeField] private Transform _cameraTransform;
 
         private PlayerStateMachine _stateMachine;
@@ -15,6 +14,8 @@ namespace PlayerControl
         private bool _isButtonDown;
         private float _pressStartTime;
         private const float _holdThreshold = 0.2f;
+
+        private PlayerConfig _config => GameManager.Instance.Config;
 
         public bool IsRaycastEnabled { get; set; } = true;
 

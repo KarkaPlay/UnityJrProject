@@ -20,10 +20,8 @@ namespace InteractableSystem
 
         public override string GetInteractText()
         {
-            if (!CanInteract())
-                return "Недоступно";
-
-            return _isOn ? _interactTextOff : _interactTextOn;
+            string currentText = _isOn ? _interactTextOff : _interactTextOn;
+            return GetTextOrBlocked(currentText);
         }
 
         public override void OnInteract()

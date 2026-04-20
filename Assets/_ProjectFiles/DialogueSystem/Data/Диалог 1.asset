@@ -22,22 +22,26 @@ MonoBehaviour:
     - _text: "\u0410 \u0432\u043E\u0442 \u0438 \u043D\u0435 \u043F\u0440\u0438\u0432\u0435\u0442"
       _nextNodeIndex: 2
     _nextNodeIndex: -1
+    _triggersQuest: 0
   - _speakerName: "\u0418\u0433\u0440\u043E\u043A"
     _text: "\u041F\u0440\u0438\u0432\u0435\u0442 \u043E\u0447\u0435\u043D\u044C \u043F\u0440\u0438\u044F\u0442\u043D\u043E)"
     _choices: []
     _nextNodeIndex: 3
+    _triggersQuest: 0
   - _speakerName: "\u0418\u0433\u0440\u043E\u043A"
     _text: "\u0410 \u0432\u043E\u0442 \u0438 \u043D\u0435 \u043F\u0440\u0438\u0432\u0435\u0442,
       \u0442\u044B \u043C\u043D\u0435 \u043D\u0435 \u043D\u0440\u0430\u0432\u0438\u0448\u044C\u0441\u044F"
     _choices: []
     _nextNodeIndex: 4
+    _triggersQuest: 0
   - _speakerName: "\u0420\u0430\u043D\u0434\u043E\u043C \u0447\u0435\u043B"
     _text: "\u041D\u0443 \u0432\u043E\u0442, \u0432\u0441\u0435 \u0445\u043E\u0440\u043E\u0448\u043E)"
     _choices: []
     _nextNodeIndex: -1
+    _triggersQuest: 0
   - _speakerName: "\u0420\u0430\u043D\u0434\u043E\u043C \u0447\u0435\u043B"
     _text: "\u0410\u0445 \u0442\u044B \u0432\u043E\u0442 \u0442\u0430\u043A\u043E\u0439
       \u0434\u0430"
     _choices: []
     _nextNodeIndex: -1
-  _startsQuest: 0
+    _triggersQuest: 0

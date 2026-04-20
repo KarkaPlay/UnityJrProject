@@ -10,36 +10,32 @@ namespace InteractableSystem
         [SerializeField] private Item _requiredItem;
         [SerializeField] private bool _consumeOnUse = true;
 
-        private PlayerInventory _inventory;
+        private PlayerInventory Inventory => GameManager.Instance.Inventory;
         private bool _isFulfilled;
-
-        private void Start()
-        {
-            _inventory = FindFirstObjectByType<PlayerInventory>();
-        }
 
         public override bool IsMet()
         {
             if (_isFulfilled)
                 return true;
 
-            if (_inventory == null || !_inventory.HasItem)
+            if (!Inventory.HasItem)
                 return false;
 
             if (_requiredItem == null)
                 return true;
 
-            return _inventory.CurrentItem == _requiredItem;
+            return Inventory.CurrentItem == _requiredItem;
         }
 
         public void Fulfill()
         {
-            if (_isFulfilled) return;
+            if (_isFulfilled)
+                return;
 
             _isFulfilled = true;
 
-            if (_consumeOnUse && _inventory != null)
-                _inventory.DestroyCurrentItem();
+            if (_consumeOnUse)
+                Inventory.DestroyCurrentItem();
         }
     }
 }

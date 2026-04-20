@@ -8,43 +8,42 @@ namespace DialogueSystem
     [RequireComponent(typeof(InteractableOutline))]
     public class NPC : MonoBehaviour, IInteractable
     {
+        [Header("Texts")]
+        [SerializeField] private string _talkText = "Разговор";
+        [SerializeField] private string _giveItemText = "Отдать предмет";
+
         [SerializeField] private DialogueData[] _dialogues;
-        [SerializeField] private DialogueManager _dialogueManager;
         [SerializeField] private FetchQuest _fetchQuest;
 
-        private PlayerInventory _inventory;
+        private PlayerInventory Inventory => GameManager.Instance.Inventory;
+        private DialogueManager DialogueManager => GameManager.Instance.DialogueManager;
         private int _currentDialogueIndex = 0;
-
-        private void Start()
-        {
-            _inventory = FindFirstObjectByType<PlayerInventory>();
-        }
 
         public string GetInteractText()
         {
-            if (_fetchQuest != null && _inventory.HasItem)
-                return "Отдать предмет";
+            if (_fetchQuest != null && Inventory.HasItem)
+                return _giveItemText;
 
             if (_currentDialogueIndex < _dialogues.Length)
-                return "Разговор";
+                return _talkText;
 
             return "";
         }
 
         public void OnInteract()
         {
-            if (_fetchQuest != null && _inventory.HasItem)
+            if (_fetchQuest != null && Inventory.HasItem)
             {
-                if (_fetchQuest.TryCompleteQuest(_inventory.CurrentItem))
+                if (_fetchQuest.TryCompleteQuest(Inventory.CurrentItem))
                 {
-                    _inventory.DestroyCurrentItem();
+                    Inventory.DestroyCurrentItem();
                     return;
                 }
             }
 
             if (_currentDialogueIndex < _dialogues.Length)
             {
-                _dialogueManager.StartDialogue(_dialogues[_currentDialogueIndex]);
+                DialogueManager.StartDialogue(_dialogues[_currentDialogueIndex]);
                 _currentDialogueIndex++;
             }
         }

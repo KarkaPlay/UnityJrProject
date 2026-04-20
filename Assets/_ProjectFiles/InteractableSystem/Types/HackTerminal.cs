@@ -5,6 +5,11 @@ namespace InteractableSystem
 {
     public class HackTerminal : InteractableBase
     {
+        [Header("Texts")]
+        [SerializeField] private string _startText = "Взломать";
+        [SerializeField] private string _activeText = "Подтвердить";
+        [SerializeField] private string _usedText = "";
+
         [Header("Hack Terminal")]
         [SerializeField] private float _sliderSpeed = 0.4f;
         [SerializeField] private float _successZoneCenter = 0.5f;
@@ -26,41 +31,38 @@ namespace InteractableSystem
         public override string GetInteractText()
         {
             if (_isUsed)
-                return "";
+                return _usedText;
 
-            return _isActive ? "Взломать" : _interactText;
+            string currentText = _isActive ? _activeText : _startText;
+            return GetTextOrBlocked(currentText);
         }
 
         public override void OnInteract()
         {
-            if (_isUsed)
+            if (_isUsed || !CanInteract())
                 return;
 
             if (!_isActive)
             {
                 _isActive = true;
+                _sliderPosition = 0f;
+                _direction = 1;
                 _ui.Show(SuccessMin, SuccessMax);
                 return;
             }
 
             _isActive = false;
-            _isUsed = true;
             _ui.Hide();
 
             if (_sliderPosition >= SuccessMin && _sliderPosition <= SuccessMax)
+            {
+                _isUsed = true;
                 OnSuccess?.Invoke();
+            }
             else
+            {
                 OnFailure?.Invoke();
-        }
-
-        public override void OnHoldInteract()
-        {
-
-        }
-
-        public override void OnStopInteract()
-        {
-
+            }
         }
 
         private void Update()
@@ -77,7 +79,8 @@ namespace InteractableSystem
             }
             else if (_sliderPosition <= 0f)
             {
-                _sliderPosition = 0f; _direction = 1;
+                _sliderPosition = 0f;
+                _direction = 1;
             }
 
             _ui.SetSliderValue(_sliderPosition);

@@ -8,31 +8,28 @@ public class DialogueDataEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        var dialogue = (DialogueData)target;
         serializedObject.Update();
 
         var nodesProperty = serializedObject.FindProperty("_nodes");
-        var startsQuestProperty = serializedObject.FindProperty("_startsQuest");
 
-        EditorGUILayout.PropertyField(startsQuestProperty);
-        EditorGUILayout.Space(10);
-
-        // Инициализация фолдаутов
-        if (_nodeFoldouts == null || _nodeFoldouts.Length != nodesProperty.arraySize)
-            _nodeFoldouts = new bool[nodesProperty.arraySize];
-
+        EditorGUILayout.Space(5);
         EditorGUILayout.LabelField("Dialogue Nodes", EditorStyles.boldLabel);
         EditorGUILayout.Space(5);
+
+        // Инициализация массива фолдаутов
+        if (_nodeFoldouts == null || _nodeFoldouts.Length != nodesProperty.arraySize)
+            _nodeFoldouts = new bool[nodesProperty.arraySize];
 
         for (int i = 0; i < nodesProperty.arraySize; i++)
         {
             var nodeProperty = nodesProperty.GetArrayElementAtIndex(i);
+
             var speakerName = nodeProperty.FindPropertyRelative("_speakerName");
             var text = nodeProperty.FindPropertyRelative("_text");
             var choices = nodeProperty.FindPropertyRelative("_choices");
             var nextNodeIndex = nodeProperty.FindPropertyRelative("_nextNodeIndex");
+            var triggersQuest = nodeProperty.FindPropertyRelative("_triggersQuest");
 
-            // Заголовок ноды
             string preview = text.stringValue.Length > 40
                 ? text.stringValue.Substring(0, 40) + "..."
                 : text.stringValue;
@@ -54,7 +51,10 @@ public class DialogueDataEditor : Editor
 
                 EditorGUILayout.Space(5);
 
-                // Выборы
+                EditorGUILayout.PropertyField(triggersQuest, new GUIContent("Triggers Quest"));
+
+                EditorGUILayout.Space(5);
+
                 if (choices.arraySize > 0)
                 {
                     EditorGUILayout.LabelField("Choices", EditorStyles.boldLabel);
@@ -72,9 +72,9 @@ public class DialogueDataEditor : Editor
                         EditorGUILayout.LabelField("→", GUILayout.Width(15));
 
                         choiceNext.intValue = EditorGUILayout.IntField(
-                            choiceNext.intValue, GUILayout.Width(40));
+                            choiceNext.intValue,
+                            GUILayout.Width(40));
 
-                        // Подсказка куда ведёт
                         if (choiceNext.intValue >= 0 && choiceNext.intValue < nodesProperty.arraySize)
                         {
                             var targetSpeaker = nodesProperty
@@ -84,14 +84,11 @@ public class DialogueDataEditor : Editor
                             EditorGUILayout.LabelField(
                                 $"[{targetSpeaker}]",
                                 EditorStyles.miniLabel,
-                                GUILayout.Width(80));
+                                GUILayout.Width(100));
                         }
                         else if (choiceNext.intValue == -1)
                         {
-                            EditorGUILayout.LabelField(
-                                "[END]",
-                                EditorStyles.miniLabel,
-                                GUILayout.Width(80));
+                            EditorGUILayout.LabelField("[END]", EditorStyles.miniLabel);
                         }
 
                         if (GUILayout.Button("×", GUILayout.Width(20)))
@@ -102,12 +99,13 @@ public class DialogueDataEditor : Editor
                 }
                 else
                 {
-                    // Линейная нода — показываем nextNodeIndex
                     EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Next Node →", GUILayout.Width(80));
+
+                    EditorGUILayout.LabelField("Next Node →", GUILayout.Width(90));
 
                     nextNodeIndex.intValue = EditorGUILayout.IntField(
-                        nextNodeIndex.intValue, GUILayout.Width(40));
+                        nextNodeIndex.intValue,
+                        GUILayout.Width(40));
 
                     if (nextNodeIndex.intValue >= 0 && nextNodeIndex.intValue < nodesProperty.arraySize)
                     {
@@ -127,7 +125,7 @@ public class DialogueDataEditor : Editor
                     EditorGUILayout.EndHorizontal();
                 }
 
-                EditorGUILayout.Space(3);
+                EditorGUILayout.Space(5);
 
                 EditorGUILayout.BeginHorizontal();
 

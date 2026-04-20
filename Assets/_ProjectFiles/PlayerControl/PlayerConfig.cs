@@ -24,6 +24,13 @@ public class PlayerConfig : ScriptableObject
     public Color InspectionOutlineColor = Color.white;
     public float InspectionOutlineWidth = 2f;
 
+    [Header("Inspection")]
+    public float InspectionDistance = 0.6f;
+    public float InspectionOffsetX = -0.2f;
+    public float InspectionOffsetY = 0f;
+    public float InspectionRotationSpeed = 50f;
+    public float InspectionMoveSpeed = 5f;
+
     [Header("Note Inspection")]
     public float NoteInspectionDistance = 0.3f;
     public float NoteInspectionOffsetX = 0f;

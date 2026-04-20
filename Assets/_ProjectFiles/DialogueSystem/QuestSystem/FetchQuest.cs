@@ -1,5 +1,5 @@
 using Items;
-using PlayerControl;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
@@ -8,12 +8,11 @@ namespace QuestSystem
 {
     public class FetchQuest : MonoBehaviour
     {
-        [Header("Available Items (excluding key and note)")]
-        [SerializeField] private Item[] _possibleItems;
         [SerializeField] private QuestUI _questUI;
 
         public UnityEvent OnQuestCompleted;
 
+        private List<Item> _possibleItems;
         private Item _targetItem;
         private bool _isActive;
         private bool _isCompleted;
@@ -21,16 +20,16 @@ namespace QuestSystem
         private void Start()
         {
             _possibleItems = FindObjectsByType<Item>(FindObjectsInactive.Exclude, FindObjectsSortMode.None)
-                .Where(item => item is not KeyItem && item is not NoteItem)
-                .ToArray();
+                .Where(item => !item.ExcludeFromQuests && item is not NoteItem)
+                .ToList();
         }
 
         public void StartQuest()
         {
             if (_isActive || _isCompleted) return;
-            if (_possibleItems.Length == 0) return;
+            if (_possibleItems.Count == 0) return;
 
-            _targetItem = _possibleItems[Random.Range(0, _possibleItems.Length)];
+            _targetItem = _possibleItems[Random.Range(0, _possibleItems.Count)];
             _isActive = true;
 
             _questUI.Show($"Принести: {_targetItem.ItemName}");

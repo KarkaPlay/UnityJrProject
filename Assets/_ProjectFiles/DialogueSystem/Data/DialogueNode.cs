@@ -21,11 +21,13 @@ namespace DialogueSystem
         [SerializeField][TextArea(2, 5)] private string _text;
         [SerializeField] private List<DialogueChoice> _choices;
         [SerializeField] private int _nextNodeIndex = -1;
+        [SerializeField] private bool _triggersQuest = false;
 
         public string SpeakerName => _speakerName;
         public string Text => _text;
         public List<DialogueChoice> Choices => _choices;
         public int NextNodeIndex => _nextNodeIndex;
         public bool HasChoices => _choices != null && _choices.Count > 0;
+        public bool TriggersQuest => _triggersQuest;
     }
 }

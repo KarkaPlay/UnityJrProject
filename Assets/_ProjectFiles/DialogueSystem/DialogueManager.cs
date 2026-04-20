@@ -14,19 +14,15 @@ public class DialogueManager : MonoBehaviour
 
     private DialogueData _currentDialogue;
     private int _currentNodeIndex;
-    private PlayerStateMachine _stateMachine;
 
-    private void Start()
-    {
-        _stateMachine = FindFirstObjectByType<PlayerStateMachine>();
-    }
+    private PlayerStateMachine StateMachine => GameManager.Instance.StateMachine;
 
     public void StartDialogue(DialogueData dialogue)
     {
         _currentDialogue = dialogue;
         _currentNodeIndex = 0;
 
-        _stateMachine.TransitionTo(_stateMachine.DialogueState);
+        StateMachine.TransitionTo(StateMachine.DialogueState);
         OnDialogueStarted?.Invoke();
 
         ShowCurrentNode();
@@ -62,9 +58,7 @@ public class DialogueManager : MonoBehaviour
     {
         var node = _currentDialogue.Nodes[_currentNodeIndex];
 
-        bool isLastNode = _currentNodeIndex == _currentDialogue.Nodes.Count - 1;
-
-        if (_currentDialogue.StartsQuest && isLastNode && _fetchQuest != null)
+        if (node.TriggersQuest && _fetchQuest != null)
         {
             _fetchQuest.StartQuest();
             string itemName = _fetchQuest.GetTargetItemName();
@@ -80,14 +74,8 @@ public class DialogueManager : MonoBehaviour
     {
         _dialogueUI.Hide();
 
-        if (_currentDialogue != null && _currentDialogue.StartsQuest)
-        {
-            Debug.Log("Запускаем квест");
-            OnQuestStarted?.Invoke(_currentDialogue);
-        }
-
         _currentDialogue = null;
-        _stateMachine.TransitionTo(_stateMachine.ExplorationState);
+        StateMachine.TransitionTo(StateMachine.ExplorationState);
         OnDialogueEnded?.Invoke();
     }
 }

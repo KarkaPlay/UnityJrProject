@@ -6,12 +6,12 @@ namespace PlayerControl
 {
     public class PlayerCamera : MonoBehaviour
     {
-        public PlayerConfig config;
-
         public Transform cameraTransform;
 
         private float _pitch = 0f;
         private Vector2 _lookInput;
+
+        private PlayerConfig _config => GameManager.Instance.Config;
 
         private void Start()
         {
@@ -26,11 +26,11 @@ namespace PlayerControl
 
         private void LateUpdate()
         {
-            float lookX = _lookInput.x * config.mouseSensitivity;
-            float lookY = _lookInput.y * config.mouseSensitivity;
+            float lookX = _lookInput.x * _config.mouseSensitivity;
+            float lookY = _lookInput.y * _config.mouseSensitivity;
 
             _pitch -= lookY;
-            _pitch = Mathf.Clamp(_pitch, config.UpperLookLimit, config.LowerLookLimit);
+            _pitch = Mathf.Clamp(_pitch, _config.UpperLookLimit, _config.LowerLookLimit);
             cameraTransform.localRotation = Quaternion.Euler(_pitch, 0f, 0f);
 
             transform.Rotate(Vector3.up * lookX);

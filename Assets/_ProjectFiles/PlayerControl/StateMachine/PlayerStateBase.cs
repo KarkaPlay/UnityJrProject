@@ -4,11 +4,18 @@ namespace PlayerControl
 {
     public abstract class PlayerStateBase
     {
-        protected PlayerStateMachine stateMachine;
+        protected readonly PlayerStateMachine StateMachine;
 
-        public PlayerStateBase(PlayerStateMachine stateMachine)
+        protected PlayerMovement Movement => StateMachine.Movement;
+        protected PlayerCamera Camera => StateMachine.Camera;
+        protected PlayerInteraction Interaction => StateMachine.Interaction;
+        protected PlayerInventory Inventory => StateMachine.Inventory;
+        protected PlayerUI UI => StateMachine.UI;
+        protected PlayerConfig Config => GameManager.Instance.Config;
+
+        protected PlayerStateBase(PlayerStateMachine stateMachine)
         {
-            this.stateMachine = stateMachine;
+            StateMachine = stateMachine;
         }
 
         public virtual void Enter() { }
