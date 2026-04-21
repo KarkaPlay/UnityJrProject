@@ -47,11 +47,11 @@ Render Pipeline: URP
 
 ## Структура проекта
 
-Common: глобальные системы (GameManager, SingletonBehaviour), общие визуальные ассеты и модели.
-InteractionSystem: базовая логика интерфейсов, условий (HasItemCondition) и типов взаимодействия (Hold, Toggle, OneTime).
-ItemsSystem: логика предметов, универсальных сокетов и уникальные скрипты объектов (PocketWatch, NoteItem).
-PlayerControl: контроллер, PlayerConfig (SO), машина состояний и центральный UI игрока.
-DialogueSystem: менеджер диалогов, UI реплик и кастомный редактор данных.
-QuestSystem: логика квестов и чекбокс-индикатор.
-EnvironmentObjects: скрипты физических объектов уровня (Door, Valve).
+- Common: глобальные системы (GameManager, SingletonBehaviour), общие визуальные ассеты и модели.
+- InteractionSystem: базовая логика интерфейсов, условий (HasItemCondition) и типов взаимодействия (Hold, Toggle, OneTime).
+- ItemsSystem: логика предметов, универсальных сокетов и уникальные скрипты объектов (PocketWatch, NoteItem).
+- PlayerControl: контроллер, PlayerConfig (SO), машина состояний и центральный UI игрока.
+- DialogueSystem: менеджер диалогов, UI реплик и кастомный редактор данных.
+- QuestSystem: логика квестов и чекбокс-индикатор.
+- EnvironmentObjects: скрипты физических объектов уровня (Door, Valve).
 
