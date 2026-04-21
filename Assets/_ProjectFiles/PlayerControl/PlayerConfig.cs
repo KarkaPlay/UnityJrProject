@@ -3,6 +3,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlayerConfig", menuName = "Configs/PlayerConfig")]
 public class PlayerConfig : ScriptableObject
 {
+    [Header("Player")]
+    public string PlayerName = "Игрок";
+
     [Header("Movement")]
     public float moveSpeed = 5;
     public float gravity = -9.81f;
